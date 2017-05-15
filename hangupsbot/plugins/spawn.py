@@ -82,7 +82,7 @@ def _initialize(bot):
 
     # override the load logic and register our commands directly
     for cmd in cmds:
-        command.register(_spawn, admin=True, final=True, name=cmd)
+        command.register(_spawn, admin=False, final=True, name=cmd)
 
     logger.info("spawn - %s", ", ".join(['*' + cmd for cmd in cmds]))
     plugins.register_admin_command(list(cmds))

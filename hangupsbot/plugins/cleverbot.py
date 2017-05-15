@@ -9,6 +9,8 @@ import hangups
 
 import plugins
 
+from cleverwrap import CleverWrap
+
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +22,7 @@ class Cleverbot:
     """
     Wrapper over the Cleverbot API.
     """
+
     HOST = "www.boibot.com"
     PROTOCOL = "http://"
     RESOURCE = "/webservicemin?uc=777&botapi=see%20www.cleverbot.com%2Fapis&t=18205"
@@ -41,6 +44,14 @@ class Cleverbot:
     lastanswer = ""
 
     def __init__(self):
+
+        self.cleverstate = False
+        self.clwp = CleverWrap('CC14bPkny6xihnV7G9eouR0IggA')
+        '''if bot.get_config_suboption(event.conv_id, 'cleverbot_percentage_replies'):
+            self.cleverstate = bot.get_config_suboption(event.conv_id, 'cleverbot_percentage_replies')'''
+
+        
+
         """ The data that will get passed to Cleverbot's web API """
         self.data = {
             'stimulus': '',
@@ -100,7 +111,12 @@ class Cleverbot:
         Returns:
             Cleverbot's answer
         """
+
+        if not self.cleverstate:
+            return
         # Set the current question
+        if question.startswith('/bot') or question.startswith('##'):
+            return
         question = question.strip()
         if not question:
             return
@@ -114,6 +130,7 @@ class Cleverbot:
         self.data['stimulus'] = question
         self.asked = self.asked + 1
 
+        '''
         # Connect to Cleverbot's API and remember the response
         try:
             self.resp = self._send()
@@ -129,12 +146,15 @@ class Cleverbot:
         # Set data as appropriate
         if not self.data['sessionid']:
             self.data['sessionid'] = parsed['conversation_id']
+        '''
+
+        answer = self.clwp.say(question)
 
         # Add Cleverbot's reply to the conversation log
-        self.conversation.append(parsed['answer'])
-        self.lastanswer = parsed['answer']
+        self.conversation.append(answer)
+        self.lastanswer = answer
 
-        return parsed['answer']
+        return answer
 
 
     def _send(self):
@@ -234,7 +254,7 @@ class Cleverbot:
 
 def _initialise(bot):
     plugins.register_handler(_handle_incoming_message, type="message")
-    plugins.register_user_command(["chat"])
+    plugins.register_user_command(["chat", "bottoggle"])
     plugins.register_admin_command(["chatreset"])
 
 
@@ -282,6 +302,22 @@ def chatreset(bot, event, *args):
         message = "removed {}".format(conv_id)
 
     yield from bot.coro_send_message(event.conv_id, message)
+
+def bottoggle(bot, event, *args):
+    if event.conv_id not in __cleverbots:
+        __cleverbots[event.conv_id] = Cleverbot()
+        logger.debug('added api instance for {}'.format(event.conv_id))
+    
+    cbt = __cleverbots[event.conv_id]
+    
+    if cbt.cleverstate:
+        text = '<em>Cleverbot is going to sleep...</em>'
+    elif not cbt.cleverstate:
+        text = '<em>Cleverbot is booting up...</em>'
+
+    cbt.cleverstate = not cbt.cleverstate
+
+    yield from bot.coro_send_message(event.conv_id, text)
 
 
 def cleverbot_ask(conv_id, message, filter_ads=True):

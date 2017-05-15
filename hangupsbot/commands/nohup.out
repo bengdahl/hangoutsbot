@@ -1,0 +1,80 @@
+08:59:34 INFO config: /home/ben/.local/share/hangupsbot/config.json read
+08:59:34 INFO root: memory = /home/ben/.local/share/hangupsbot/memory.json, failsafe = 3, delay = 1
+08:59:34 INFO config: /home/ben/.local/share/hangupsbot/memory.json read
+08:59:34 INFO requests.packages.urllib3.connectionpool: Starting new HTTPS connection (1): accounts.google.com
+08:59:35 INFO requests.packages.urllib3.connectionpool: Starting new HTTPS connection (1): www.google.com
+08:59:40 INFO tagging: refreshed
+08:59:40 INFO monkeypatch.otr_support: removeuser replaced with otr_monkeypatch_removeuser
+08:59:40 INFO monkeypatch.otr_support: adduser replaced with otr_monkeypatched_adduser
+08:59:40 INFO plugins: otr_support - no commands
+08:59:40 INFO permamem: loading 7 conversations from memory
+08:59:40 INFO permamem: loading 34 users from hangups
+08:59:40 INFO permamem: loading 7 conversations from hangups
+08:59:40 WARNING permamem: unknown users returned from ALL HAIL THE GLOW CLOUD (UgziC8mYoKkXV4rLllh4AaABAQ): ['100163394016819885637', '114653992582835115893', '114312584259666097591', '108351668839990419891', '113676697391760166876', '104658153845612375545', '114088500113568010746', '108437965983607486893']
+08:59:41 INFO permamem: total conversations: 7
+08:59:41 INFO permamem: total users: 34 cached: 34 definitive (at start): 26
+08:59:41 INFO plugins: plugincontrol - *plugininfo, *pluginload, *pluginreload, *pluginunload
+08:59:41 INFO plugins: basic - help, *locale, optout, ping, *resourcememory, version
+08:59:41 INFO plugins: tagging - *tagdel, *tagindexdump, *tagscommand, *tagset, *tagspurge, *tagsuser, *tagsuserlist
+08:59:41 INFO plugins: permamem - *dumpconv, *dumpunknownusers, *makeallusersindefinite, *refreshusermemory, *removeconvrecord, *resetunknownusers
+08:59:41 INFO plugins: convid - *convecho, *convfilter, *convleave, *convrename, *convusers
+08:59:41 INFO plugins: loggertochat - *logconfig, *lograise
+08:59:41 INFO plugins: excluded 39: ['webbridge_hubot', 'lottery', 'chance', 'twitter', 'showme', 'catfact', 'monitoradds', 'forecast', 'syncrooms_config', 'wolframalpha', 'image_memegenerator', 'humor_hangoutcalls', 'botaddnotif', 'lookup', 'xkcd', 'image_screenshot', 'image_linker_reddit', 'simplewikipedia', 'spotify', 'api', 'urbandict', 'botalive', 'slack', 'slackrtm', 'telesync', 'syncrooms', 'convtools', 'restrictedadd', 'metar', 'webbridge_telegram', 'chatlogger', 'forwarding', 'image_links', 'pluginmanager', 'convtools_invitations', 'foursquare', 'namelock', 'botaliases', 'tldr']
+08:59:41 INFO plugins: included 11: ['cleverbot', 'default', 'easteregg', 'inverter', 'mentions', 'subscribe', 'autoreply', 'dnd', 'starter', 'spawn', 'remind']
+08:59:41 INFO plugins: cleverbot - bottoggle, chat, *chatreset
+08:59:41 INFO plugins: default - *broadcast, *config, echo, *hangouts, *leave, *quit, *reload, *rename, *user, *users, *whereami, whoami
+08:59:41 INFO plugins: easteregg - *easteregg
+08:59:41 INFO plugins: inverter - tob
+08:59:41 INFO plugins: mentions - bemorespecific, *mention, pushbulletapi, setnickname
+08:59:41 INFO plugins: subscribe - subscribe, unsubscribe
+08:59:41 INFO plugins: autoreply - *autoreply
+08:59:41 INFO plugins: dnd - dnd
+08:59:41 INFO plugins: starter - *files, iamspartacus, *test_one2one_message, verifyme
+08:59:41 INFO plugins.spawn: spawn - *polpost, *bpost, *shitpost, *eripost, *shit4chansays
+08:59:41 INFO plugins: spawn - no commands
+08:59:41 INFO plugins: remind - remindall, remindme
+08:59:41 INFO root: bot initialised
+09:00:08 INFO event: eid/dt: 8DEBS1_Oi1F8RmIRVvvUUM/2017-04-25 09:00:12
+09:00:08 INFO event: cid/cn: UgziC8mYoKkXV4rLllh4AaABAQ/ALL HAIL THE GLOW CLOUD
+09:00:08 INFO event: c/g/un: 109119654524024286369/109119654524024286369/Trash Lord
+09:00:08 INFO event: len/tx: 5/caleb
+09:00:08 WARNING permamem: unknown users returned from ALL HAIL THE GLOW CLOUD (UgziC8mYoKkXV4rLllh4AaABAQ): ['100163394016819885637', '114653992582835115893', '114312584259666097591', '108351668839990419891', '113676697391760166876', '104658153845612375545', '114088500113568010746', '108437965983607486893']
+09:00:09 ERROR plugins.cleverbot: failed to get response
+Traceback (most recent call last):
+  File "/home/ben/hangoutsbot/hangupsbot/plugins/cleverbot.py", line 333, in cleverbot_ask
+    text = html.unescape(text)
+  File "/usr/lib/python3.4/html/__init__.py", line 130, in unescape
+    if '&' not in s:
+TypeError: argument of type 'NoneType' is not iterable
+09:00:48 INFO event: eid/dt: 8DEBS1_Oi1F8RmIWNVDKZ5/2017-04-25 09:00:52
+09:00:48 INFO event: cid/cn: UgziC8mYoKkXV4rLllh4AaABAQ/ALL HAIL THE GLOW CLOUD
+09:00:48 INFO event: c/g/un: 109119654524024286369/109119654524024286369/Trash Lord
+09:00:48 INFO event: len/tx: 9//bot quit
+09:00:48 WARNING permamem: unknown users returned from ALL HAIL THE GLOW CLOUD (UgziC8mYoKkXV4rLllh4AaABAQ): ['100163394016819885637', '114653992582835115893', '114312584259666097591', '108351668839990419891', '113676697391760166876', '104658153845612375545', '114088500113568010746', '108437965983607486893']
+09:00:49 ERROR plugins.cleverbot: failed to get response
+Traceback (most recent call last):
+  File "/home/ben/hangoutsbot/hangupsbot/plugins/cleverbot.py", line 333, in cleverbot_ask
+    text = html.unescape(text)
+  File "/usr/lib/python3.4/html/__init__.py", line 130, in unescape
+    if '&' not in s:
+TypeError: argument of type 'NoneType' is not iterable
+09:00:49 INFO plugins.default: HangupsBot killed by user Trash Lord from conversation ALL HAIL THE GLOW CLOUD
+09:00:49 INFO root: bot is exiting
+09:00:49 INFO plugins: plugins.mentions unloaded
+09:00:49 INFO plugins: commands.basic unloaded
+09:00:49 INFO plugins: plugins.easteregg unloaded
+09:00:49 INFO plugins: commands.convid unloaded
+09:00:49 INFO plugins: plugins.dnd unloaded
+09:00:49 INFO plugins: plugins.inverter unloaded
+09:00:49 INFO plugins: plugins.autoreply unloaded
+09:00:49 INFO plugins: plugins.cleverbot unloaded
+09:00:49 INFO plugins: commands.plugincontrol unloaded
+09:00:49 INFO plugins: monkeypatch.otr_support unloaded
+09:00:49 INFO plugins: plugins.subscribe unloaded
+09:00:49 INFO plugins: commands.loggertochat unloaded
+09:00:49 INFO plugins: commands.permamem unloaded
+09:00:49 INFO plugins: plugins.starter unloaded
+09:00:49 INFO plugins: plugins.remind unloaded
+09:00:49 INFO plugins: commands.tagging unloaded
+09:00:49 INFO plugins: plugins.spawn unloaded
+09:00:49 INFO plugins: plugins.default unloaded
