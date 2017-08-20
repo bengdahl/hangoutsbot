@@ -38,11 +38,11 @@ except ImportError:
     logger.warning("required module: cleverwrap")
 
 __cleverbots = {}
-
+__enabled_bots = {}
 
 def _initialise(bot):
     plugins.register_handler(_handle_incoming_message, type="message")
-    plugins.register_user_command(["chat"])
+    plugins.register_user_command(["chat", "bottoggle"])
     plugins.register_admin_command(["chatreset"])
 
 
@@ -62,6 +62,14 @@ def _handle_incoming_message(bot, event, command):
     if randrange(0, 101, 1) < float(percentage):
         yield from chat(bot, event)
 
+def bottoggle(bot, event):
+    cid = event.conv_id
+    if __cleverbots[cid] == None:
+        _get_cw_for_chat(bot, event)
+        return
+    else:
+        __enabled_bots[cid] = not __enabled_bots[cid]
+        return
 
 def _get_cw_for_chat(bot, event):
     """initialise/get cleverbot api wrapper"""
@@ -86,7 +94,8 @@ def _get_cw_for_chat(bot, event):
             return None
         else:
             cw = CleverWrap(api_key)
-            __cleverbots[index] = cw
+            __cleverbots[index] 	= cw
+            __enabled_bots[index]	= True
             logger.debug("created new cw for {}".format(index))
             return cw
 
@@ -102,11 +111,16 @@ def chat(bot, event, *args):
         logger.error(response)
         yield from bot.coro_send_message(event.conv_id, response)
         return
-
+    
     if args:
         input_text = " ".join(args)
     else:
         input_text = event.text
+
+    if input_text.startswith('/bot'):
+        return
+    if input_text.startswith('##'):
+        return
 
     # cw.say takes one argument, the input string. It is a blocking call that returns cleverbot's response.
     # see https://github.com/edwardslabs/cleverwrap.py for more information
