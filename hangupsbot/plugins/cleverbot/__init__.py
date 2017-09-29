@@ -53,6 +53,8 @@ def _handle_incoming_message(bot, event, command):
 
     if not event.text:
         return
+    if event.text.startswith("##") or event.text.startswith("http"):
+        return
 
     if not bot.get_config_suboption(event.conv_id, 'cleverbot_percentage_replies'):
         return
