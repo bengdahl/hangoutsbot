@@ -4,11 +4,23 @@ import sqlite3
 from collections import Counter
 from string import punctuation
 from math import sqrt
+import plugins
+import asyncio
  
 # initialize the connection to the database
 connection = sqlite3.connect('chatbot.sqlite')
 cursor = connection.cursor()
- 
+
+def _initialise(bot):
+    plugins.register_handler(_handle_incoming_message, type="message")
+
+@asyncio.coroutine
+def _handle_incoming_message(bot, event, command):
+    if event.text != None:
+        yield from bot.coro_send_message(event.conv_id, chat(event.text))
+    else:
+        return
+
 # create the tables needed by the program
 create_table_request_list = [
     'CREATE TABLE words(word TEXT UNIQUE)',
@@ -46,9 +58,8 @@ def get_words(text):
  
  
 B = 'Hello!'
-while True:
-    # output bot's message
-    print('B: ' + B)
+
+def chat(input):
     # ask for user input; if blank line, exit the loop
     H = raw_input('H: ').strip()
     if H == '':
@@ -60,23 +71,64 @@ while True:
     for word, n in words:
         word_id = get_id('word', word)
         weight = sqrt(n / float(words_length))
-        cursor.execute('INSERT INTO associations VALUES (?, ?, ?)', (word_id, sentence_id, weight))
+        cursor.execute('INSERT INTO associations VALUES (?, ?, ?)',
+                       (word_id, sentence_id, weight))
     connection.commit()
     # retrieve the most likely answer from the database
-    cursor.execute('CREATE TEMPORARY TABLE results(sentence_id INT, sentence TEXT, weight REAL)')
+    cursor.execute(
+        'CREATE TEMPORARY TABLE results(sentence_id INT, sentence TEXT, weight REAL)')
     words = get_words(H)
     words_length = sum([n * len(word) for word, n in words])
     for word, n in words:
         weight = sqrt(n / float(words_length))
         cursor.execute('INSERT INTO results SELECT associations.sentence_id, sentences.sentence, ?*associations.weight/(4+sentences.used) FROM words INNER JOIN associations ON associations.word_id=words.rowid INNER JOIN sentences ON sentences.rowid=associations.sentence_id WHERE words.word=?', (weight, word,))
     # if matches were found, give the best one
-    cursor.execute('SELECT sentence_id, sentence, SUM(weight) AS sum_weight FROM results GROUP BY sentence_id ORDER BY sum_weight DESC LIMIT 1')
+    cursor.execute(
+        'SELECT sentence_id, sentence, SUM(weight) AS sum_weight FROM results GROUP BY sentence_id ORDER BY sum_weight DESC LIMIT 1')
     row = cursor.fetchone()
     cursor.execute('DROP TABLE results')
     # otherwise, just randomly pick one of the least used sentences
     if row is None:
-        cursor.execute('SELECT rowid, sentence FROM sentences WHERE used = (SELECT MIN(used) FROM sentences) ORDER BY RANDOM() LIMIT 1')
+        cursor.execute(
+            'SELECT rowid, sentence FROM sentences WHERE used = (SELECT MIN(used) FROM sentences) ORDER BY RANDOM() LIMIT 1')
         row = cursor.fetchone()
     # tell the database the sentence has been used once more, and prepare the sentence
     B = row[1]
     cursor.execute('UPDATE sentences SET used=used+1 WHERE rowid=?', (row[0],))
+    # output bot's message
+    return B
+
+# while True:
+#     # output bot's message
+#     print('B: ' + B)
+#     # ask for user input; if blank line, exit the loop
+#     H = raw_input('H: ').strip()
+#     if H == '':
+#         break
+#     # store the association between the bot's message words and the user's response
+#     words = get_words(B)
+#     words_length = sum([n * len(word) for word, n in words])
+#     sentence_id = get_id('sentence', H)
+#     for word, n in words:
+#         word_id = get_id('word', word)
+#         weight = sqrt(n / float(words_length))
+#         cursor.execute('INSERT INTO associations VALUES (?, ?, ?)', (word_id, sentence_id, weight))
+#     connection.commit()
+#     # retrieve the most likely answer from the database
+#     cursor.execute('CREATE TEMPORARY TABLE results(sentence_id INT, sentence TEXT, weight REAL)')
+#     words = get_words(H)
+#     words_length = sum([n * len(word) for word, n in words])
+#     for word, n in words:
+#         weight = sqrt(n / float(words_length))
+#         cursor.execute('INSERT INTO results SELECT associations.sentence_id, sentences.sentence, ?*associations.weight/(4+sentences.used) FROM words INNER JOIN associations ON associations.word_id=words.rowid INNER JOIN sentences ON sentences.rowid=associations.sentence_id WHERE words.word=?', (weight, word,))
+#     # if matches were found, give the best one
+#     cursor.execute('SELECT sentence_id, sentence, SUM(weight) AS sum_weight FROM results GROUP BY sentence_id ORDER BY sum_weight DESC LIMIT 1')
+#     row = cursor.fetchone()
+#     cursor.execute('DROP TABLE results')
+#     # otherwise, just randomly pick one of the least used sentences
+#     if row is None:
+#         cursor.execute('SELECT rowid, sentence FROM sentences WHERE used = (SELECT MIN(used) FROM sentences) ORDER BY RANDOM() LIMIT 1')
+#         row = cursor.fetchone()
+#     # tell the database the sentence has been used once more, and prepare the sentence
+#     B = row[1]
+#     cursor.execute('UPDATE sentences SET used=used+1 WHERE rowid=?', (row[0],))
