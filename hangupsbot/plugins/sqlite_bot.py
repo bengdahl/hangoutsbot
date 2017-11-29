@@ -61,6 +61,12 @@ B = 'Hello!'
 
 def chat(input):
     # ask for user input; if blank line, exit the loop
+    try:
+        if not initialized:
+            B = 'Hello!'
+    else:
+        B = 'Hello!'
+        
     H = input
     if H == '':
         return 
