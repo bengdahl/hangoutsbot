@@ -63,7 +63,7 @@ def chat(input):
     # ask for user input; if blank line, exit the loop
     H = raw_input('H: ').strip()
     if H == '':
-        break
+        return 
     # store the association between the bot's message words and the user's response
     words = get_words(B)
     words_length = sum([n * len(word) for word, n in words])
