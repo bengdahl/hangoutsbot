@@ -4,6 +4,7 @@ __pycache__/
 hangups
 purplex
 aiohttp
+nohup.out
 
 *.*~
 /hangupsbot/__pycache__
