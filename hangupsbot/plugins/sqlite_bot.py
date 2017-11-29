@@ -61,7 +61,7 @@ B = 'Hello!'
 
 def chat(input):
     # ask for user input; if blank line, exit the loop
-    H = raw_input('H: ').strip()
+    H = input('H: ').strip()
     if H == '':
         return 
     # store the association between the bot's message words and the user's response
@@ -102,7 +102,7 @@ def chat(input):
 #     # output bot's message
 #     print('B: ' + B)
 #     # ask for user input; if blank line, exit the loop
-#     H = raw_input('H: ').strip()
+#     H = input('H: ').strip()
 #     if H == '':
 #         break
 #     # store the association between the bot's message words and the user's response
