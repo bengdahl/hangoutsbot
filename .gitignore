@@ -15,7 +15,7 @@ aiohttp
 *.swp
 /hangupsbot/plugins/re
 /hangupsbot/plugins/sqlite
-/hangupsbot/plaugins/chatbot.sqlite
+/hangupsbot/plugins/chatbot.sqlite
 
 # Prevent telesync from saving photos
 *.jpg
