@@ -64,9 +64,9 @@ def chat(input):
     try:
         if not initialized:
             B = 'Hello!'
-    else:
+    except:
         B = 'Hello!'
-        
+
     H = input
     if H == '':
         return 
